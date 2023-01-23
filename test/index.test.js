@@ -6,29 +6,22 @@ const { request, gql, GraphQLClient } = require('graphql-request')
 jest.mock('graphql-request')
 
 
-
-//TypeError: graphQLClient.request is not a function
-
-
-
 // call rick and morty api mocked
 test('call rick and morty api mocked', async () => {
 
-    jest.mock('graphql-request', () => ({
-        GraphQLClient: jest.fn().mockResolvedValue({
-            request: jest.fn().mockResolvedValue({
-                characters: {
-                    results: [
-                        {name: 'Morty'}
-                    ]
-                }
-            })
-        }),
-        gql: jest.fn()
-    }))
+    GraphQLClient.mockImplementation(() => ({
+        request: jest.fn().mockResolvedValue({
+            characters: {
+                results: [
+                    {name: 'Morty Test'}
+                ]
+            }
+        })
+    }))    
 
-    const results = await queryRickAndMorthy()
-    expect(results).toBe('ok')
+    const result = await queryRickAndMorthy()
+    expect(result).toBe('ok')
+    expect(GraphQLClient).toHaveBeenCalledTimes(1)
 }
 )
 

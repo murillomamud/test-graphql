@@ -27,6 +27,7 @@ const queryRickAndMorthy = async function () {
           }
         `;
         const results = await graphQLClient.request(query);
+        console.log(results.characters.results[0].name)
         return('ok')
 }
 
